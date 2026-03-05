@@ -23,6 +23,7 @@ body {
   background:
     radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 38%),
     linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  touch-action: manipulation;
 }
 
 .game-shell {
@@ -79,6 +80,41 @@ canvas {
   border: 1px solid rgba(16, 35, 62, 0.08);
   background: linear-gradient(180deg, #8ec5ff 0%, #d7efff 45%, #e7f5d7 45%, #c0de97 100%);
   box-shadow: 0 30px 50px -30px var(--shadow);
+  touch-action: none;
+}
+
+.touch-controls {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.touch-btn {
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 12px 10px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 22px -18px var(--shadow);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+}
+
+.touch-btn:active,
+.touch-btn.is-pressed {
+  transform: translateY(1px) scale(0.99);
+  background: #eaf1ff;
+}
+
+.touch-btn-main {
+  background: #fff2ea;
+}
+
+.touch-btn-flip {
+  background: #edf9ff;
 }
 
 .controls-panel {
@@ -106,5 +142,10 @@ canvas {
 
   .controls-panel {
     text-align: left;
+  }
+
+  .touch-btn {
+    padding: 14px 8px;
+    font-size: 0.95rem;
   }
 }

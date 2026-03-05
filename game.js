@@ -5,6 +5,14 @@ const scoreEl = document.getElementById("score");
 const bestScoreEl = document.getElementById("best-score");
 const comboEl = document.getElementById("combo");
 const feedbackEl = document.getElementById("feedback");
+const touchButtons = {
+  left: document.getElementById("btn-left"),
+  right: document.getElementById("btn-right"),
+  front: document.getElementById("btn-front"),
+  back: document.getElementById("btn-back"),
+  start: document.getElementById("btn-start"),
+  restart: document.getElementById("btn-restart")
+};
 
 // Tunable physics and difficulty constants.
 const CONFIG = {
@@ -560,6 +568,63 @@ function setKeyState(code, isDown) {
   }
 }
 
+function setVirtualKey(action, isDown) {
+  switch (action) {
+    case "left":
+      keys.left = isDown;
+      break;
+    case "right":
+      keys.right = isDown;
+      break;
+    case "front":
+      keys.front = isDown;
+      break;
+    case "back":
+      keys.back = isDown;
+      break;
+    default:
+      break;
+  }
+}
+
+function bindHoldButton(button, action) {
+  if (!button) return;
+  const press = (event) => {
+    event.preventDefault();
+    setVirtualKey(action, true);
+    button.classList.add("is-pressed");
+  };
+  const release = (event) => {
+    event.preventDefault();
+    setVirtualKey(action, false);
+    button.classList.remove("is-pressed");
+  };
+  button.addEventListener("pointerdown", press, { passive: false });
+  button.addEventListener("pointerup", release, { passive: false });
+  button.addEventListener("pointercancel", release, { passive: false });
+  button.addEventListener("pointerleave", release, { passive: false });
+}
+
+function bindTapButton(button, action) {
+  if (!button) return;
+  button.addEventListener(
+    "pointerdown",
+    (event) => {
+      event.preventDefault();
+      button.classList.add("is-pressed");
+      action();
+    },
+    { passive: false }
+  );
+  const clearPressed = (event) => {
+    event.preventDefault();
+    button.classList.remove("is-pressed");
+  };
+  button.addEventListener("pointerup", clearPressed, { passive: false });
+  button.addEventListener("pointercancel", clearPressed, { passive: false });
+  button.addEventListener("pointerleave", clearPressed, { passive: false });
+}
+
 window.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
@@ -577,6 +642,17 @@ window.addEventListener("keydown", (event) => {
 
 window.addEventListener("keyup", (event) => {
   setKeyState(event.code, false);
+});
+
+bindHoldButton(touchButtons.left, "left");
+bindHoldButton(touchButtons.right, "right");
+bindHoldButton(touchButtons.front, "front");
+bindHoldButton(touchButtons.back, "back");
+bindTapButton(touchButtons.start, () => startLaunchCharge());
+bindTapButton(touchButtons.restart, () => {
+  if (game.state === STATE.CRASHED) {
+    resetGame();
+  }
 });
 
 resetGame();

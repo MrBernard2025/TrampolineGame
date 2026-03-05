@@ -25,6 +25,15 @@ python3 -m http.server 8000
 
 Then open <http://localhost:8000>.
 
+### iPhone
+
+1. Run a local server from this folder:
+   ```bash
+   python3 -m http.server 8000
+   ```
+2. On iPhone, open Safari and visit `http://<your-mac-local-ip>:8000`.
+3. Use the on-screen touch buttons to play.
+
 ## Controls
 
 - `Space`: start a run from the trampoline
@@ -36,6 +45,13 @@ Then open <http://localhost:8000>.
 - `R`: restart after a crash
 
 After the run starts, successful landings auto-chain into the next bounce until you fail.
+
+Touch controls:
+
+- `Left` / `Right`: hold to move horizontally in the air
+- `Front Flip` / `Back Flip`: hold to rotate
+- `Start / Jump`: starts the run
+- `Restart`: restarts after crash
 
 ## Scoring
 
